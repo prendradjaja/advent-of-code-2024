@@ -29,6 +29,7 @@ int count_occurrences(int n, int* arr, int size) {
   return result;
 }
 
+// TODO Maybe do the faster (linear time?) solution
 int main() {
   int left[MAX_SIZE];
   int right[MAX_SIZE];
