@@ -4,9 +4,6 @@
 #define TRUE 1
 #define FALSE 0
 
-/* fprintf(stderr, "Input too long\n"); */
-/* exit(EXIT_FAILURE); */
-
 const int STATE_EXPECT_M = 10;
 const int STATE_EXPECT_U = 20;
 const int STATE_EXPECT_L = 30;
@@ -24,10 +21,6 @@ typedef struct state {
 
 const state INITIAL_STATE = { .kind = STATE_EXPECT_M, .left_operand = 0, .right_operand = 0 };
 const state SECOND_STATE = { .kind = STATE_EXPECT_U, .left_operand = 0, .right_operand = 0 };
-
-void print_int(int n) {
-  printf("%d\n", n);
-}
 
 int is_int(int ch) {
   switch (ch) {
@@ -57,7 +50,7 @@ int ctoi(int ch) {
   return ch - '0';
 }
 
-state next_state(state current, int ch) {
+state next_state(state current, int ch, int* answer) {
   switch (current.kind) {
     case STATE_EXPECT_M:
       if (ch == 'm') {
@@ -133,9 +126,7 @@ state next_state(state current, int ch) {
       } else if (ch == 'm') {
         return SECOND_STATE;
       } else if (ch == ')') {
-        print_int(99999);
-        print_int(current.left_operand);
-        print_int(current.right_operand);
+        *answer += current.left_operand * current.right_operand;
         return INITIAL_STATE;
       } else {
         return INITIAL_STATE;
@@ -146,17 +137,13 @@ state next_state(state current, int ch) {
   }
 }
 
-// CONTINUE_HERE:
-// - Multiply and add the operands (ctrl-f 99999)
-
 int main() {
-  FILE *file = fopen("ex", "r");
-  state my_state = { .kind = STATE_EXPECT_M, .left_operand = 0, .right_operand = 0 };
+  FILE *file = fopen("in", "r");
+  state my_state = INITIAL_STATE;
   int ch;
+  int answer = 0;
   while ((ch = getc(file)) != EOF) {
-    my_state = next_state(my_state, ch);
+    my_state = next_state(my_state, ch, &answer);
   }
-
-  /* int answer = 0; */
-  /* printf("%d\n", answer); */
+  printf("%d\n", answer);
 }
