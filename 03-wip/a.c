@@ -5,20 +5,22 @@
 #define TRUE 1
 #define FALSE 0
 
+typedef enum {
+  EXPECT_M,
+  EXPECT_U,
+  EXPECT_L,
+  EXPECT_OPEN_PAREN,
+  EXPECT_LEFT_OPERAND,
+  EXPECT_COMMA,
+  EXPECT_RIGHT_OPERAND,
+  EXPECT_CLOSE_PAREN
+} StateKind;
+
 typedef struct State {
-  int kind; // Should be one of EXPECT_*
+  StateKind kind;
   int left_operand;
   int right_operand;
 } State;
-
-const int EXPECT_M = 10;
-const int EXPECT_U = 20;
-const int EXPECT_L = 30;
-const int EXPECT_OPEN_PAREN = 40;
-const int EXPECT_LEFT_OPERAND = 50;
-const int EXPECT_COMMA = 60;
-const int EXPECT_RIGHT_OPERAND = 70;
-const int EXPECT_CLOSE_PAREN = 80;
 
 const State INITIAL_STATE = { .kind = EXPECT_M, .left_operand = 0, .right_operand = 0 };
 const State SECOND_STATE = { .kind = EXPECT_U, .left_operand = 0, .right_operand = 0 };
