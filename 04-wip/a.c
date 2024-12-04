@@ -7,59 +7,75 @@
 const int PATTERN_SIZE = 4;
 const int PATTERN[PATTERN_SIZE] = { 'A', 'B', 'C', 'D', };
 
-const int GRID_SIZE = 10;
-const int GRID[GRID_SIZE][GRID_SIZE] = {
-  { 'A', 'B', 'C', 'D', 'O', 'O', 'A', 'B', 'C', 'D', },
-  { 'O', 'A', 'B', 'C', 'D', 'A', 'B', 'C', 'D', 'O', },
-  { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', },
-  { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', },
-  { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', },
-  { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', },
-  { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', },
-  { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', },
-  { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', },
-  { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', },
+typedef struct Grid {
+  int* arr;
+  int row_count;
+  int col_count;
+} Grid;
+
+const int example_arr[] = {
+  'A', 'B', 'C', 'D', 'O', 'O', 'A', 'B', 'C', 'D',
+  'O', 'A', 'B', 'C', 'D', 'A', 'B', 'C', 'D', 'A',
+  'B', 'C', 'D', '.', '.', '.', '.', '.', '.', '.',
+};
+
+const Grid example_grid = {
+  .row_count = 3,
+  .col_count = 10,
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wincompatible-pointer-types-discards-qualifiers"
+  .arr = example_arr,
+#pragma GCC diagnostic pop
 };
 
 void print_int(int n) {
   printf("%d\n", n);
 }
 
-int count_occurrences(const int* row, int row_size) {
-  int positions = row_size - PATTERN_SIZE + 1;
+// todo: Try using a macro maybe
+int get_grid_item(Grid grid, int r, int c) {
+  return grid.arr[r * grid.col_count + c];
+}
+
+// "Simple occurrences" = horizontal and forwards
+int count_simple_occurrences(Grid grid) {
+  int positions = grid.col_count - PATTERN_SIZE + 1;
   int result = 0;
-  for (int i = 0; i < positions; i++) {
-    if (
-      row[i] == PATTERN[0] &&
-      row[i + 1] == PATTERN[1] &&
-      row[i + 2] == PATTERN[2] &&
-      row[i + 3] == PATTERN[3]
-    ) {
-      result++;
+  for (int r = 0; r < grid.row_count; r++) {
+    for (int c = 0; c < positions; c++) {
+      if (
+        get_grid_item(grid, r, c) == PATTERN[0] &&
+        get_grid_item(grid, r, c + 1) == PATTERN[1] &&
+        get_grid_item(grid, r, c + 2) == PATTERN[2] &&
+        get_grid_item(grid, r, c + 3) == PATTERN[3]
+      ) {
+        result++;
+      }
     }
   }
   return result;
 }
 
-/* void show_grid(int grid[10][10], int grid_size) { */
-/*   for (int r = 0; r < grid_size; r++) { */
-/*     for (int c = 0; c < grid_size; c++) { */
-/*       printf("%d ", grid[r][c]); */
-/*     } */
-/*     puts(""); */
-/*   } */
-/* } */
+void show_grid(Grid grid) {
+  for (int r = 0; r < grid.row_count; r++) {
+    for (int c = 0; c < grid.col_count; c++) {
+      printf("%d ", get_grid_item(grid, r, c));
+    }
+    puts("");
+  }
+}
 
 int main() {
   /* FILE *file = fopen("ex", "r"); */
   /* FILE *file = fopen("in", "r"); */
 
-  int* arr = (int*) malloc(10 * sizeof(int));
-  arr[0] = 1;
-  print_int(arr[0]);
+  /* int* arr = (int*) malloc(10 * sizeof(int)); */
+  /* arr[0] = 1; */
+  /* print_int(arr[0]); */
 
-  /* show_grid(GRID, GRID_SIZE); */
+  /* int answer = 0; */
+  /* printf("%d\n", answer); */
 
-  int answer = 0;
-  printf("%d\n", count_occurrences(GRID[0], GRID_SIZE));
+  show_grid(example_grid);
+  printf("%d\n", count_simple_occurrences(example_grid));
 }
