@@ -126,8 +126,5 @@ State next_state(State current, int ch, int* answer) {
       } else {
         return INITIAL_STATE;
       }
-    default:
-      fprintf(stderr, "Invalid input to next_state()\n");
-      exit(EXIT_FAILURE);
   }
 }
