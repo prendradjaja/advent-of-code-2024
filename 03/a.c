@@ -2,9 +2,6 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-#define TRUE 1
-#define FALSE 0
-
 typedef enum {
   EXPECT_M,
   EXPECT_U,
