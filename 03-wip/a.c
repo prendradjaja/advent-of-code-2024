@@ -14,16 +14,16 @@ typedef enum {
   EXPECT_COMMA,
   EXPECT_RIGHT_OPERAND,
   EXPECT_CLOSE_PAREN
-} StateKind;
+} StateType;
 
 typedef struct State {
-  StateKind kind;
+  StateType type;
   int left_operand;
   int right_operand;
 } State;
 
-const State INITIAL_STATE = { .kind = EXPECT_M, .left_operand = 0, .right_operand = 0 };
-const State SECOND_STATE = { .kind = EXPECT_U, .left_operand = 0, .right_operand = 0 };
+const State INITIAL_STATE = { .type = EXPECT_M, .left_operand = 0, .right_operand = 0 };
+const State SECOND_STATE = { .type = EXPECT_U, .left_operand = 0, .right_operand = 0 };
 
 State next_state(State current, int ch, int* answer);
 
@@ -38,9 +38,9 @@ int main() {
   printf("%d\n", answer);
 }
 
-State advance_state(State current, int kind) {
+State advance_state(State current, int type) {
   State result = current;
-  result.kind = kind;
+  result.type = type;
   return result;
 }
 
@@ -49,7 +49,7 @@ int char_to_int(int ch) {
 }
 
 State next_state(State current, int ch, int* answer) {
-  switch (current.kind) {
+  switch (current.type) {
     case EXPECT_M:
       if (ch == 'm') {
         return advance_state(current, EXPECT_U);
@@ -93,7 +93,7 @@ State next_state(State current, int ch, int* answer) {
     case EXPECT_COMMA:
       if (isdigit(ch)) {
         State result = current;
-        result.kind = EXPECT_COMMA;
+        result.type = EXPECT_COMMA;
         result.left_operand *= 10;
         result.left_operand += char_to_int(ch);
         return result;
@@ -117,7 +117,7 @@ State next_state(State current, int ch, int* answer) {
     case EXPECT_CLOSE_PAREN:
       if (isdigit(ch)) {
         State result = current;
-        result.kind = EXPECT_CLOSE_PAREN;
+        result.type = EXPECT_CLOSE_PAREN;
         result.right_operand *= 10;
         result.right_operand += char_to_int(ch);
         return result;
