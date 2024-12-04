@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 #define TRUE 1
 #define FALSE 0
@@ -33,24 +34,6 @@ int main() {
     my_state = next_state(my_state, ch, &answer);
   }
   printf("%d\n", answer);
-}
-
-int is_int(int ch) {
-  switch (ch) {
-    case '0':
-    case '1':
-    case '2':
-    case '3':
-    case '4':
-    case '5':
-    case '6':
-    case '7':
-    case '8':
-    case '9':
-      return TRUE;
-    default:
-      return FALSE;
-  }
 }
 
 state advance_state(state current, int kind) {
@@ -96,7 +79,7 @@ state next_state(state current, int ch, int* answer) {
         return INITIAL_STATE;
       }
     case EXPECT_LEFT_OPERAND:
-      if (is_int(ch)) {
+      if (isdigit(ch)) {
         state result = advance_state(current, EXPECT_COMMA);
         result.left_operand = char_to_int(ch);
         return result;
@@ -106,7 +89,7 @@ state next_state(state current, int ch, int* answer) {
         return INITIAL_STATE;
       }
     case EXPECT_COMMA:
-      if (is_int(ch)) {
+      if (isdigit(ch)) {
         state result = current;
         result.kind = EXPECT_COMMA;
         result.left_operand *= 10;
@@ -120,7 +103,7 @@ state next_state(state current, int ch, int* answer) {
         return INITIAL_STATE;
       }
     case EXPECT_RIGHT_OPERAND:
-      if (is_int(ch)) {
+      if (isdigit(ch)) {
         state result = advance_state(current, EXPECT_CLOSE_PAREN);
         result.right_operand = char_to_int(ch);
         return result;
@@ -130,7 +113,7 @@ state next_state(state current, int ch, int* answer) {
         return INITIAL_STATE;
       }
     case EXPECT_CLOSE_PAREN:
-      if (is_int(ch)) {
+      if (isdigit(ch)) {
         state result = current;
         result.kind = EXPECT_CLOSE_PAREN;
         result.right_operand *= 10;
