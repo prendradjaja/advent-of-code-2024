@@ -5,11 +5,11 @@
 #define TRUE 1
 #define FALSE 0
 
-typedef struct state {
+typedef struct State {
   int kind; // Should be one of EXPECT_*
   int left_operand;
   int right_operand;
-} state;
+} State;
 
 const int EXPECT_M = 10;
 const int EXPECT_U = 20;
@@ -20,24 +20,24 @@ const int EXPECT_COMMA = 60;
 const int EXPECT_RIGHT_OPERAND = 70;
 const int EXPECT_CLOSE_PAREN = 80;
 
-const state INITIAL_STATE = { .kind = EXPECT_M, .left_operand = 0, .right_operand = 0 };
-const state SECOND_STATE = { .kind = EXPECT_U, .left_operand = 0, .right_operand = 0 };
+const State INITIAL_STATE = { .kind = EXPECT_M, .left_operand = 0, .right_operand = 0 };
+const State SECOND_STATE = { .kind = EXPECT_U, .left_operand = 0, .right_operand = 0 };
 
-state next_state(state current, int ch, int* answer);
+State next_state(State current, int ch, int* answer);
 
 int main() {
   FILE *file = fopen("in", "r");
-  state my_state = INITIAL_STATE;
+  State state = INITIAL_STATE;
   int ch;
   int answer = 0;
   while ((ch = getc(file)) != EOF) {
-    my_state = next_state(my_state, ch, &answer);
+    state = next_state(state, ch, &answer);
   }
   printf("%d\n", answer);
 }
 
-state advance_state(state current, int kind) {
-  state result = current;
+State advance_state(State current, int kind) {
+  State result = current;
   result.kind = kind;
   return result;
 }
@@ -46,7 +46,7 @@ int char_to_int(int ch) {
   return ch - '0';
 }
 
-state next_state(state current, int ch, int* answer) {
+State next_state(State current, int ch, int* answer) {
   switch (current.kind) {
     case EXPECT_M:
       if (ch == 'm') {
@@ -80,7 +80,7 @@ state next_state(state current, int ch, int* answer) {
       }
     case EXPECT_LEFT_OPERAND:
       if (isdigit(ch)) {
-        state result = advance_state(current, EXPECT_COMMA);
+        State result = advance_state(current, EXPECT_COMMA);
         result.left_operand = char_to_int(ch);
         return result;
       } else if (ch == 'm') {
@@ -90,7 +90,7 @@ state next_state(state current, int ch, int* answer) {
       }
     case EXPECT_COMMA:
       if (isdigit(ch)) {
-        state result = current;
+        State result = current;
         result.kind = EXPECT_COMMA;
         result.left_operand *= 10;
         result.left_operand += char_to_int(ch);
@@ -104,7 +104,7 @@ state next_state(state current, int ch, int* answer) {
       }
     case EXPECT_RIGHT_OPERAND:
       if (isdigit(ch)) {
-        state result = advance_state(current, EXPECT_CLOSE_PAREN);
+        State result = advance_state(current, EXPECT_CLOSE_PAREN);
         result.right_operand = char_to_int(ch);
         return result;
       } else if (ch == 'm') {
@@ -114,7 +114,7 @@ state next_state(state current, int ch, int* answer) {
       }
     case EXPECT_CLOSE_PAREN:
       if (isdigit(ch)) {
-        state result = current;
+        State result = current;
         result.kind = EXPECT_CLOSE_PAREN;
         result.right_operand *= 10;
         result.right_operand += char_to_int(ch);
