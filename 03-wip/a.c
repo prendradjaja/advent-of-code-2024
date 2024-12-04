@@ -16,6 +16,15 @@ const int STATE_EXPECT_COMMA = 60;
 const int STATE_EXPECT_RIGHT_OPERAND = 70;
 const int STATE_EXPECT_CLOSE_PAREN = 80;
 
+typedef struct state {
+  int kind;
+  int left_operand;
+  int right_operand;
+} state;
+
+const state INITIAL_STATE = { .kind = STATE_EXPECT_M, .left_operand = 0, .right_operand = 0 };
+const state SECOND_STATE = { .kind = STATE_EXPECT_U, .left_operand = 0, .right_operand = 0 };
+
 void print_int(int n) {
   printf("%d\n", n);
 }
@@ -38,74 +47,98 @@ int is_int(int ch) {
   }
 }
 
-int next_state(int current, int ch) {
-  switch (current) {
+state advance_state(state current, int kind) {
+  state result = current;
+  result.kind = kind;
+  return result;
+}
+
+int ctoi(int ch) {
+  return ch - '0';
+}
+
+state next_state(state current, int ch) {
+  switch (current.kind) {
     case STATE_EXPECT_M:
       if (ch == 'm') {
-        return STATE_EXPECT_U;
+        return advance_state(current, STATE_EXPECT_U);
       } else {
         return current;
       }
     case STATE_EXPECT_U:
       if (ch == 'u') {
-        return STATE_EXPECT_L;
+        return advance_state(current, STATE_EXPECT_L);
       } else if (ch == 'm') {
-        return STATE_EXPECT_U;
+        return SECOND_STATE;
       } else {
-        return STATE_EXPECT_M;
+        return INITIAL_STATE;
       }
     case STATE_EXPECT_L:
       if (ch == 'l') {
-        return STATE_EXPECT_OPEN_PAREN;
+        return advance_state(current, STATE_EXPECT_OPEN_PAREN);
       } else if (ch == 'm') {
-        return STATE_EXPECT_U;
+        return SECOND_STATE;
       } else {
-        return STATE_EXPECT_M;
+        return INITIAL_STATE;
       }
     case STATE_EXPECT_OPEN_PAREN:
       if (ch == '(') {
-        return STATE_EXPECT_LEFT_OPERAND;
+        return advance_state(current, STATE_EXPECT_LEFT_OPERAND);
       } else if (ch == 'm') {
-        return STATE_EXPECT_U;
+        return SECOND_STATE;
       } else {
-        return STATE_EXPECT_M;
+        return INITIAL_STATE;
       }
     case STATE_EXPECT_LEFT_OPERAND:
       if (is_int(ch)) {
-        return STATE_EXPECT_COMMA;
+        state result = advance_state(current, STATE_EXPECT_COMMA);
+        result.left_operand = ctoi(ch);
+        return result;
       } else if (ch == 'm') {
-        return STATE_EXPECT_U;
+        return SECOND_STATE;
       } else {
-        return STATE_EXPECT_M;
+        return INITIAL_STATE;
       }
     case STATE_EXPECT_COMMA:
       if (is_int(ch)) {
-        return STATE_EXPECT_COMMA;
+        state result = current;
+        result.kind = STATE_EXPECT_COMMA;
+        result.left_operand *= 10;
+        result.left_operand += ctoi(ch);
+        return result;
       } else if (ch == ',') {
-        return STATE_EXPECT_RIGHT_OPERAND;
+        return advance_state(current, STATE_EXPECT_RIGHT_OPERAND);
       } else if (ch == 'm') {
-        return STATE_EXPECT_U;
+        return SECOND_STATE;
       } else {
-        return STATE_EXPECT_M;
+        return INITIAL_STATE;
       }
     case STATE_EXPECT_RIGHT_OPERAND:
       if (is_int(ch)) {
-        return STATE_EXPECT_CLOSE_PAREN;
+        state result = advance_state(current, STATE_EXPECT_CLOSE_PAREN);
+        result.right_operand = ctoi(ch);
+        return result;
       } else if (ch == 'm') {
-        return STATE_EXPECT_U;
+        return SECOND_STATE;
       } else {
-        return STATE_EXPECT_M;
+        return INITIAL_STATE;
       }
     case STATE_EXPECT_CLOSE_PAREN:
       if (is_int(ch)) {
-        return STATE_EXPECT_CLOSE_PAREN;
+        state result = current;
+        result.kind = STATE_EXPECT_CLOSE_PAREN;
+        result.right_operand *= 10;
+        result.right_operand += ctoi(ch);
+        return result;
       } else if (ch == 'm') {
-        return STATE_EXPECT_U;
+        return SECOND_STATE;
       } else if (ch == ')') {
         print_int(99999);
-        return STATE_EXPECT_M;
+        print_int(current.left_operand);
+        print_int(current.right_operand);
+        return INITIAL_STATE;
       } else {
-        return STATE_EXPECT_M;
+        return INITIAL_STATE;
       }
     default:
       fprintf(stderr, "Invalid input to next_state()\n");
@@ -114,14 +147,14 @@ int next_state(int current, int ch) {
 }
 
 // CONTINUE_HERE:
-// - Collect the operands along the way (so that I can then use them)
+// - Multiply and add the operands (ctrl-f 99999)
 
 int main() {
   FILE *file = fopen("ex", "r");
-  int state = STATE_EXPECT_M;
+  state my_state = { .kind = STATE_EXPECT_M, .left_operand = 0, .right_operand = 0 };
   int ch;
   while ((ch = getc(file)) != EOF) {
-    state = next_state(state, ch);
+    my_state = next_state(my_state, ch);
   }
 
   /* int answer = 0; */
