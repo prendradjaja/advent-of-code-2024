@@ -10,15 +10,15 @@ typedef struct SubarrayResult {
   int safe;
 } SubarrayResult;
 
-// The example input.
+// The example input (modified)
 const int input[] = {
-  7, 6, 4, 2, 1, 0,
+  7, 6, 4, 2, 1, 0, // Add a 0 to the end of each row
   1, 2, 7, 8, 9, 0,
   9, 7, 6, 2, 1, 0,
   1, 3, 2, 4, 5, 0,
   8, 6, 4, 4, 1, 0,
   1, 3, 6, 7, 9, 0,
-  -1,
+  -1, // Add a -1 to the end of the input
 };
 
 
