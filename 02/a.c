@@ -7,7 +7,7 @@
 
 typedef struct SubarrayResult {
   int* arr;
-  int safe;
+  int is_safe;
 } SubarrayResult;
 
 // The example input (modified)
@@ -30,7 +30,7 @@ int main() {
   while (*arr != -1) {
     SubarrayResult result = consume_one_subarray(arr);
     arr = result.arr;
-    answer += result.safe;
+    answer += result.is_safe;
   }
   printf("%d\n", answer);
 }
@@ -80,11 +80,11 @@ SubarrayResult consume_one_subarray(int* arr) {
 
   arr++;
 
-  int safe = (
+  int is_safe = (
     deltas_all_ok &&
     directions_all_same &&
     direction != 0
   );
 
-  return (SubarrayResult) { .arr = arr, .safe = safe };
+  return (SubarrayResult) { .arr = arr, .is_safe = is_safe };
 }
