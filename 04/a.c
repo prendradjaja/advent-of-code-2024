@@ -8,7 +8,7 @@ const char INPUT[N * N] = "MMMSXXMASMMSAMXMSMSAAMXSXMAAMMMSAMASMSMXXMASAMXAMMXXA
 
 
 const int PATTERN_SIZE = 4;
-const char PATTERN[PATTERN_SIZE] = { 'X', 'M', 'A', 'S', };
+const char PATTERN[PATTERN_SIZE] = "XMAS";
 
 typedef struct Vector {
   int r;
