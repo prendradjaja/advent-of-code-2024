@@ -98,10 +98,11 @@ void check_for_MAS(Vector pos, Vector direction) {
 
   // MAS found
   Vector center = add(pos, direction);
-  if (has_MAS_center(center)) {
-    answer++;
-  } else {
+  if (!has_MAS_center(center)) {
     add_MAS_center(center);
+  } else {
+    // X found
+    answer++;
   }
 }
 
