@@ -2,6 +2,7 @@
 #include <stdbool.h>
 
 
+// INPUT = The example input with newlines removed
 const int N = 10;
 const char INPUT[N * N] = "MMMSXXMASMMSAMXMSMSAAMXSXMAAMMMSAMASMSMXXMASAMXAMMXXAMMXXAMASMSMSASXSSSAXAMASAAAMAMMMXMMMMMXMXAXMASX";
 
