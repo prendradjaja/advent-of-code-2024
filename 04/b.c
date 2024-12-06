@@ -18,10 +18,6 @@ typedef struct Vector {
   int c;
 } Vector;
 
-const Vector UP = { -1, 0 };
-const Vector DOWN = { 1, 0 };
-const Vector LEFT = { 0, -1 };
-const Vector RIGHT = { 0, 1 };
 const Vector DIAG_UL = { -1, -1 };
 const Vector DIAG_UR = { -1, 1 };
 const Vector DIAG_DL = { 1, -1 };
