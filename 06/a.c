@@ -89,13 +89,11 @@ int main() {
   }
 
   // Count visited positions
-  char* ch = input;
   int answer = 0;
-  while (*ch != 0) {
+  for (char* ch = input; *ch != 0; ch++) {
     if (*ch == 'X') {
       answer++;
     }
-    ch++;
   }
   printf("%d\n", answer);
 }
