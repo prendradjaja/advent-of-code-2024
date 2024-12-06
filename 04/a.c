@@ -79,17 +79,17 @@ Vector add(Vector v1, Vector v2) {
   };
 }
 
-Vector weighted_sum(int s1, Vector v1, int s2, Vector v2) {
+Vector add_weighted(Vector v1, int v2_weight, Vector v2) {
   return (Vector){
-    s1 * v1.r + s2 * v2.r,
-    s1 * v1.c + s2 * v2.c,
+    v1.r + v2_weight * v2.r,
+    v1.c + v2_weight * v2.c,
   };
 }
 
 bool is_match(Vector pos, Vector direction) {
   for (int i = 0; i < PATTERN_SIZE; i++) {
     char expected = PATTERN[i];
-    char actual = get_input_char(weighted_sum(1, pos, i, direction));
+    char actual = get_input_char(add_weighted(pos, i, direction));
     if (expected != actual) {
       return false;
     }
@@ -101,7 +101,7 @@ int count_matches(Vector start, Vector direction) {
   int result = 0;
   for (
     Vector pos = start;
-    in_bounds(weighted_sum(1, pos, PATTERN_SIZE - 1, direction));
+    in_bounds(add_weighted(pos, PATTERN_SIZE - 1, direction));
     pos = add(pos, direction)
   ) {
     result += is_match(pos, direction);
