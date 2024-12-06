@@ -30,28 +30,28 @@ int main() {
   int answer = 0;
 
   // Top
-  for (Vector pos = { 0,     0,     }; pos.c < N;    pos.c++) answer += count_matches(pos, DOWN);
+  for (Vector pos = { 0,     0,     }; pos.c < N;    pos.c++) { answer += count_matches(pos, DOWN); }
 
-  for (Vector pos = { 0,     0,     }; pos.c < N;    pos.c++) answer += count_matches(pos, DIAG_DL);
-  for (Vector pos = { 1,     N - 1, }; pos.r < N;    pos.r++) answer += count_matches(pos, DIAG_DL);
+  for (Vector pos = { 0,     0,     }; pos.c < N;    pos.c++) { answer += count_matches(pos, DIAG_DL); }
+  for (Vector pos = { 1,     N - 1, }; pos.r < N;    pos.r++) { answer += count_matches(pos, DIAG_DL); }
 
   // Right side
-  for (Vector pos = { 0,     N - 1, }; pos.r < N;    pos.r++) answer += count_matches(pos, LEFT);
+  for (Vector pos = { 0,     N - 1, }; pos.r < N;    pos.r++) { answer += count_matches(pos, LEFT); }
 
-  for (Vector pos = { 0,     N - 1, }; pos.r < N;    pos.r++) answer += count_matches(pos, DIAG_UL);
-  for (Vector pos = { N - 1, N - 2, }; pos.c >= 0;   pos.c--) answer += count_matches(pos, DIAG_UL);
+  for (Vector pos = { 0,     N - 1, }; pos.r < N;    pos.r++) { answer += count_matches(pos, DIAG_UL); }
+  for (Vector pos = { N - 1, N - 2, }; pos.c >= 0;   pos.c--) { answer += count_matches(pos, DIAG_UL); }
 
   // Bottom
-  for (Vector pos = { N - 1, N - 1, }; pos.c >= 0;   pos.c--) answer += count_matches(pos, UP);
+  for (Vector pos = { N - 1, N - 1, }; pos.c >= 0;   pos.c--) { answer += count_matches(pos, UP); }
 
-  for (Vector pos = { N - 1, N - 1, }; pos.c >= 0;   pos.c--) answer += count_matches(pos, DIAG_UR);
-  for (Vector pos = { N - 2, 0,     }; pos.r >= 0;   pos.r--) answer += count_matches(pos, DIAG_UR);
+  for (Vector pos = { N - 1, N - 1, }; pos.c >= 0;   pos.c--) { answer += count_matches(pos, DIAG_UR); }
+  for (Vector pos = { N - 2, 0,     }; pos.r >= 0;   pos.r--) { answer += count_matches(pos, DIAG_UR); }
 
   // Left side
-  for (Vector pos = { N - 1, 0,     }; pos.r >= 0;   pos.r--) answer += count_matches(pos, RIGHT);
+  for (Vector pos = { N - 1, 0,     }; pos.r >= 0;   pos.r--) { answer += count_matches(pos, RIGHT); }
 
-  for (Vector pos = { N - 1, 0,     }; pos.r >= 0;   pos.r--) answer += count_matches(pos, DIAG_DR);
-  for (Vector pos = { 0,     1,     }; pos.c < N;    pos.c++) answer += count_matches(pos, DIAG_DR);
+  for (Vector pos = { N - 1, 0,     }; pos.r >= 0;   pos.r--) { answer += count_matches(pos, DIAG_DR); }
+  for (Vector pos = { 0,     1,     }; pos.c < N;    pos.c++) { answer += count_matches(pos, DIAG_DR); }
 
   printf("%d\n", answer);
 }
