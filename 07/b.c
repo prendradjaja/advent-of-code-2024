@@ -110,8 +110,6 @@ SubarrayResult consume_one_subarray(long* arr) {
   }
   arr++;
 
-  printf("%ld %ld\n", total, is_solvable);
-
   return (SubarrayResult) { arr, is_solvable };
 }
 
