@@ -72,7 +72,7 @@ bool solvable(long total, long* null_terminated_array) {
   }
 
   bool solvable_with_mul;
-  if ((total % (*array)) != 0) {
+  if (total % *array != 0) {
     solvable_with_mul = false;
   } else {
     // Recurse with *
