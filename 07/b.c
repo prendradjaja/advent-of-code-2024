@@ -23,7 +23,7 @@ const long INPUT[] = {
 
 typedef struct SubarrayResult {
   long* next_subarray;
-  long is_solvable;
+  bool is_solvable;
 } SubarrayResult;
 
 
@@ -103,7 +103,7 @@ SubarrayResult consume_one_subarray(long* arr) {
 
   long* subarray = arr;
   long* reversed = copy_reversed(subarray);
-  long is_solvable = solvable(total, reversed);
+  bool is_solvable = solvable(total, reversed);
 
   while (*arr != END_OF_SUBARRAY) {
     arr++;
