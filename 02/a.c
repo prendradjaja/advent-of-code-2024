@@ -10,6 +10,7 @@ typedef struct SubarrayResult {
   int is_safe;
 } SubarrayResult;
 
+// todo Parse input instead of hard-coding it -- see read_input.c
 // The example input (modified)
 const int input[] = {
   7, 6, 4, 2, 1, 0, // Add a 0 to the end of each row
