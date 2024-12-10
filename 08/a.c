@@ -1,28 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 
-// Input and constants
-const int END_OF_SUBARRAY = -2;
-const int END_OF_INPUT = -1;
-
-const int SIZE = 12;
-int input[] = {
-  // Example input
-  '0', 1, 8,
-  2, 5,
-  3, 7,
-  4, 4,
-  END_OF_SUBARRAY,
-  'A', 5, 6,
-  8, 8,
-  9, 9,
-  END_OF_SUBARRAY,
-  END_OF_INPUT,
-};
-
-
-// Types
+// Types and constants =============================================================================
 typedef struct Vector {
   int r;
   int c;
@@ -30,8 +12,22 @@ typedef struct Vector {
 typedef Vector Position;
 typedef Vector PositionDelta;
 
+const int MAX_LINE_LENGTH = 100;
+const int MAX_ANTENNAS_PER_FREQUENCY = 10;
 
-// Functions
+
+// Globals =========================================================================================
+
+// e.g. count_antennas['A'] = 5 means there are 5 antennas of frequency 'A'
+int count_antennas[128] = { 0 };
+
+// e.g. antennas['A'] is an array containing the positions of those 5 antennas
+Vector antennas[128][MAX_ANTENNAS_PER_FREQUENCY];
+
+int input_size;
+
+
+// Functions =======================================================================================
 Vector add(Vector v1, Vector v2) {
   return (Vector){
     v1.r + v2.r,
@@ -48,60 +44,92 @@ Vector subtract(Vector v1, Vector v2) {
 
 bool in_bounds(Position v) {
   return (
-    0 <= v.r && v.r < SIZE &&
-    0 <= v.c && v.c < SIZE
+    0 <= v.r && v.r < input_size &&
+    0 <= v.c && v.c < input_size
   );
 }
 
-void find_antinodes(Position pos1, Position pos2, bool* is_antinode) {
+/*
+ * Read the input file and transform its contents into position vectors, storing the results in
+ * `input_size`, `antennas` and `count_antennas`.
+ */
+void read_input_file(char* filename) {
+  FILE *file = fopen(filename, "r");
+  if (!file) {
+    fprintf(stderr, "Could not open input file\n");
+    exit(EXIT_FAILURE);
+  }
+
+  char line[MAX_LINE_LENGTH];
+  int r = 0;
+  while (fgets(line, MAX_LINE_LENGTH, file)) {
+    line[strcspn(line, "\r\n")] = '\0';
+
+    for (int c = 0; line[c] != '\0'; c++) {
+      Vector pos = { r, c };
+      unsigned char ch = line[c];
+      if (ch == '.') {
+        continue; // '.' is not a frequency, it is just the "background" -- ignore it
+      }
+
+      int idx = count_antennas[ch];
+      antennas[ch][idx] = pos;
+      count_antennas[ch]++;
+    }
+    r++;
+  }
+
+  input_size = r;
+
+  if (ferror(file)) {
+    fprintf(stderr, "Error reading input file\n");
+    exit(EXIT_FAILURE);
+  }
+}
+
+void find_antinodes_for_two_antennas(Position pos1, Position pos2, bool* is_antinode) {
   PositionDelta delta = subtract(pos2, pos1);
 
   Position antinode1 = subtract(pos1, delta);
   if (in_bounds(antinode1)) {
-    is_antinode[antinode1.r * SIZE + antinode1.c] = true;
+    is_antinode[antinode1.r * input_size + antinode1.c] = true;
   }
 
   Position antinode2 = add(pos2, delta);
   if (in_bounds(antinode2)) {
-    is_antinode[antinode2.r * SIZE + antinode2.c] = true;
+    is_antinode[antinode2.r * input_size + antinode2.c] = true;
   }
 }
 
-int* consume_one_subarray(int* arr, bool* is_antinode) {
-  // Discard frequency
-  arr++;
-
-  // Count antennas
-  int* start = arr;
-  int count_antennas = 0;
-  while (*arr != END_OF_SUBARRAY) {
-    count_antennas++;
-    arr += 2;
-  }
-  arr++;
-
-  // Find antinodes
-  for (int i = 0; i < count_antennas; i++) {
-    for (int j = i + 1; j < count_antennas; j++) {
-      Position pos1 = { start[i * 2], start[i * 2 + 1] };
-      Position pos2 = { start[j * 2], start[j * 2 + 1] };
-      find_antinodes(pos1, pos2, is_antinode);
+void find_antinodes_for_frequency(unsigned char freq, bool* is_antinode) {
+  for (int i = 0; i < count_antennas[freq]; i++) {
+    for (int j = i + 1; j < count_antennas[freq]; j++) {
+      Position pos1 = antennas[freq][i];
+      Position pos2 = antennas[freq][j];
+      find_antinodes_for_two_antennas(pos1, pos2, is_antinode);
     }
   }
-  return arr;
 }
 
-int main() {
+int main(int argc, char** argv) {
+  // Read args and input file
+  if (argc < 2) {
+    fprintf(stderr, "Usage:\n");
+    fprintf(stderr, " ./a ex\n");
+    fprintf(stderr, " ./a in\n");
+    exit(EXIT_FAILURE);
+  }
+  read_input_file(argv[1]);
+
   // Find antinodes
-  bool is_antinode[SIZE * SIZE] = { 0 };
-  int* ptr = input;
-  while (*ptr != END_OF_INPUT) {
-    ptr = consume_one_subarray(ptr, is_antinode);
+  bool* is_antinode = malloc(input_size * input_size * sizeof(bool));
+  for (unsigned char i = 0; i < 128; i++) {
+    find_antinodes_for_frequency(i, is_antinode);
   }
 
   // Count antinodes
   int answer = 0;
-  for (int i = 0; i < SIZE * SIZE; i++) {
+  for (int i = 0; i < input_size * input_size; i++) {
     answer += is_antinode[i];
   }
   printf("%d\n", answer);
