@@ -11,7 +11,7 @@ void print_int(int n) {
 void read_ints_from_line(char* line) {
   int n;
   int inc;
-  while (sscanf(line, "%d%n", &n, &inc) > 0) {
+  while (sscanf(line, "%d%n", &n, &inc) == 1) {
     line += inc;
     print_int(n);
   }
