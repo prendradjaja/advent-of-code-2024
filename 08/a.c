@@ -12,7 +12,6 @@ typedef struct Vector {
 typedef Vector Position;
 typedef Vector PositionDelta;
 
-const int MAX_LINE_LENGTH = 100;
 const int MAX_ANTENNAS_PER_FREQUENCY = 10;
 
 
@@ -60,6 +59,7 @@ void read_input_file(char* filename) {
     exit(EXIT_FAILURE);
   }
 
+  const int MAX_LINE_LENGTH = 100;
   char line[MAX_LINE_LENGTH];
   int r = 0;
   while (fgets(line, MAX_LINE_LENGTH, file)) {
