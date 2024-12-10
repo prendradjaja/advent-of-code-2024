@@ -22,6 +22,9 @@ int count_antennas[128] = { 0 };
 
 // e.g. antennas['A'] is an array containing the positions of those 5 antennas
 Vector antennas[128][MAX_ANTENNAS_PER_FREQUENCY];
+// We can probably improve this (remove the need for count_antennas separate from antennas) by
+// changing each antennas[freq] from an array of Vectors to an array of Vector*s, so that i can just
+// use null-terminated arrays
 
 int input_size;
 
