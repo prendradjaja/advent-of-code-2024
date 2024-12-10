@@ -1,40 +1,7 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include <stdlib.h>
-
-#define TRUE 1
-#define FALSE 0
-
-
-typedef struct SubarrayResult {
-  int* arr;
-  int is_safe;
-} SubarrayResult;
-
-// todo Parse input instead of hard-coding it -- see read_input.c
-// The example input (modified)
-const int input[] = {
-  7, 6, 4, 2, 1, 0, // Add a 0 to the end of each row
-  1, 2, 7, 8, 9, 0,
-  9, 7, 6, 2, 1, 0,
-  1, 3, 2, 4, 5, 0,
-  8, 6, 4, 4, 1, 0,
-  1, 3, 6, 7, 9, 0,
-  -1, // Add a -1 to the end of the input
-};
-
-
-SubarrayResult consume_one_subarray(int* arr);
-
-int main() {
-  int* arr = input;
-  int answer = 0;
-  while (*arr != -1) {
-    SubarrayResult result = consume_one_subarray(arr);
-    arr = result.arr;
-    answer += result.is_safe;
-  }
-  printf("%d\n", answer);
-}
+#include <string.h>
 
 
 int signum(int n) {
@@ -47,45 +14,73 @@ int signum(int n) {
   }
 }
 
-SubarrayResult consume_one_subarray(int* arr) {
+bool handle_line(char* line) {
   const int UNKNOWN_DIRECTION = 999;
 
-  int deltas_all_ok = TRUE;
-  int directions_all_same = TRUE;
-  int first = TRUE;
+  int deltas_all_ok = true;
+  int directions_all_same = true;
+  int first = true;
   int prev = 0;
   int direction = UNKNOWN_DIRECTION; // Is the array increasing (1), decreasing (-1), or unknown (UNKNOWN_DIRECTION)?
 
-  while (*arr != 0) {
-    int curr = *arr;
-
+  // For each int `curr` in `line`
+  int curr;
+  int count_chars;
+  while (sscanf(line, "%d%n", &curr, &count_chars) == 1) {
     if (!first) {
       if (direction == UNKNOWN_DIRECTION) {
         direction = signum(curr - prev);
       } else {
         if (signum(curr - prev) != direction) {
-          directions_all_same = FALSE;
+          directions_all_same = false;
         }
       }
 
       int delta = curr - prev;
       if (delta == 0 || delta > 3 || delta < -3) {
-        deltas_all_ok = FALSE;
+        deltas_all_ok = false;
       }
     }
 
     prev = curr;
-    first = FALSE;
-    arr++;
+    first = false;
+
+    line += count_chars;
   }
 
-  arr++;
-
-  int is_safe = (
+  return (
     deltas_all_ok &&
     directions_all_same &&
     direction != 0
   );
+}
 
-  return (SubarrayResult) { .arr = arr, .is_safe = is_safe };
+int main(int argc, char** argv) {
+  if (argc < 2) {
+    fprintf(stderr, "Usage:\n");
+    fprintf(stderr, " ./a ex\n");
+    fprintf(stderr, " ./a in\n");
+    exit(EXIT_FAILURE);
+  }
+
+  FILE *file = fopen(argv[1], "r");
+  if (!file) {
+    fprintf(stderr, "Could not open input file\n");
+    exit(EXIT_FAILURE);
+  }
+
+  const int MAX_LINE_LENGTH = 100000;
+  char line[MAX_LINE_LENGTH];
+  int answer = 0;
+  while (fgets(line, MAX_LINE_LENGTH, file)) {
+    line[strcspn(line, "\r\n")] = '\0';
+    answer += handle_line(line);
+  }
+
+  if (ferror(file)) {
+    fprintf(stderr, "Error reading input file\n");
+    exit(EXIT_FAILURE);
+  }
+
+  printf("%d\n", answer);
 }
