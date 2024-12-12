@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 '''
 Usage:
-    ./a.py PATH_TO_INPUT_FILE
-    python3 -m doctest -v a.py
+    ./b.py PATH_TO_INPUT_FILE
 '''
 
 import sys
@@ -10,13 +9,9 @@ from collections import Counter
 
 
 def main(filename):
-    '''
-    >>> main('ex')
-    55312
-    '''
     text = open(filename).read().strip()
     stones = Counter(s for s in text.split(' '))
-    for _ in range(25):
+    for _ in range(75):
         stones = blink(stones)
     ans = sum(int(n) for n in stones.values())
     print(ans)
