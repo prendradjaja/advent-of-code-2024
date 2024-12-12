@@ -13,26 +13,22 @@ def main(filename):
     stones = Counter(s for s in text.split(' '))
     for _ in range(75):
         stones = blink(stones)
-    ans = sum(int(n) for n in stones.values())
-    print(ans)
+    answer = sum(int(n) for n in stones.values())
+    print(answer)
 
 
 def blink(stones):
-    res = Counter()
+    result = Counter()
     for engraving, count in stones.items():
         if engraving == '0':
-            n = '1'
-            res[n] += count
+            result['1'] += count
         elif len(engraving) % 2 == 0:
-            h = len(engraving) // 2
-            n1 = engraving[:h]
-            n2 = str(int(engraving[h:]))
-            res[n1] += count
-            res[n2] += count
+            half = len(engraving) // 2
+            result[engraving[:half]] += count
+            result[str(int(engraving[half:]))] += count
         else:
-            n = str(int(engraving) * 2024)
-            res[n] += count
-    return res
+            result[str(int(engraving) * 2024)] += count
+    return result
 
 
 if __name__ == '__main__':
