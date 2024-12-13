@@ -24,8 +24,15 @@ const State SECOND_STATE = { .type = EXPECT_U, .left_operand = 0, .right_operand
 
 State next_state(State current, int ch, int* answer);
 
-int main() {
-  FILE *file = fopen("in", "r");
+int main(int argc, char** argv) {
+  if (argc < 2) {
+    fprintf(stderr, "Usage:\n");
+    fprintf(stderr, " ./a ex\n");
+    fprintf(stderr, " ./a in\n");
+    exit(EXIT_FAILURE);
+  }
+
+  FILE *file = fopen(argv[1], "r");
   State state = INITIAL_STATE;
   int ch;
   int answer = 0;
