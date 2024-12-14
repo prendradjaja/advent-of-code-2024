@@ -24,16 +24,12 @@ typedef struct State {
 const State INITIAL_STATE = { .type = EXPECT_M, .left_operand = 0, .right_operand = 0 };
 const State SECOND_STATE = { .type = EXPECT_U, .left_operand = 0, .right_operand = 0 };
 
-State next_state(State current, int ch, int* answer, bool mul_enabled);
+char* DO = "do()";
+char* DONT = "don't()";
 
-/* puts("expect 1"); */
-/* printf("%d\n", is_substring_match("cats and dogs", "cat", 0)); */
-/* printf("%d\n", is_substring_match("::cats and dogs", "cat", 2)); */
-/* puts("expect 0"); */
-/* printf("%d\n", is_substring_match("cats and dogs", "catss", 0)); */
-/* printf("%d\n", is_substring_match("cats and dogs", "cat", -1)); */
-/* printf("%d\n", is_substring_match("cats and dogs", "cat", 1)); */
-/* printf("%d\n", is_substring_match("::cats and dogs", "cat", 0)); */
+const int DO_LENGTH = 4;
+const int DONT_LENGTH = 7;
+
 bool is_substring_match(char* haystack, char* needle, int index) {
   if (index < 0) {
     return false;
@@ -48,12 +44,6 @@ bool is_substring_match(char* haystack, char* needle, int index) {
   return true;
 }
 
-char* DO = "do()";
-char* DONT = "don't()";
-
-const int DO_LENGTH = 4;
-const int DONT_LENGTH = 7;
-
 bool is_do(char* haystack, int end_index) {
   return is_substring_match(haystack, DO, end_index - (DO_LENGTH - 1));
 }
@@ -62,38 +52,23 @@ bool is_dont(char* haystack, int end_index) {
   return is_substring_match(haystack, DONT, end_index - (DONT_LENGTH - 1));
 }
 
-char* input = "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))";
-char* filename = "ex";
-
-int main(int argc, char** argv) {
-  /* if (argc < 2) { */
-  /*   fprintf(stderr, "Usage:\n"); */
-  /*   fprintf(stderr, " ./a ex\n"); */
-  /*   fprintf(stderr, " ./a in\n"); */
-  /*   exit(EXIT_FAILURE); */
-  /* } */
-
-  // CONTINUE HERE:
-  // - Dont hard-code example input (read whole file into string)
-
-  puts("Using hard-coded example input, disregarding argv");
-
+// In production code, this function would be dangerous (allows buffer overflow attacks), needs a
+// max length argument.
+void read_input_file(char* buffer, char* filename) {
   FILE *file = fopen(filename, "r");
-  State state = INITIAL_STATE;
-  int ch;
-  int answer = 0;
+  if (!file) {
+    fprintf(stderr, "Could not open input file\n");
+    exit(EXIT_FAILURE);
+  }
+
+  char ch;
   int i = 0;
-  bool mul_enabled = true;
-  while ((ch = getc(file)) != '\n') {
-    state = next_state(state, ch, &answer, mul_enabled);
-    if (is_do(input, i)) {
-      mul_enabled = true;
-    } else if (is_dont(input, i)) {
-      mul_enabled = false;
-    }
+  while ((ch = getc(file)) != EOF) {
+    buffer[i] = ch;
     i++;
   }
-  printf("%d\n", answer);
+  buffer[i] = '\0';
+
   fclose(file);
 }
 
@@ -191,4 +166,36 @@ State next_state(State current, int ch, int* answer, bool mul_enabled) {
         return INITIAL_STATE;
       }
   }
+}
+
+int main(int argc, char** argv) {
+  if (argc < 2) {
+    fprintf(stderr, "Usage:\n");
+    fprintf(stderr, " ./a ex\n");
+    fprintf(stderr, " ./a in\n");
+    exit(EXIT_FAILURE);
+  }
+
+  char* filename = argv[1];
+
+  char* input = malloc(50000 * sizeof(char));
+  read_input_file(input, filename);
+
+  FILE *file = fopen(filename, "r");
+  State state = INITIAL_STATE;
+  int ch;
+  int answer = 0;
+  int i = 0;
+  bool mul_enabled = true;
+  while ((ch = getc(file)) != EOF) {
+    state = next_state(state, ch, &answer, mul_enabled);
+    if (is_do(input, i)) {
+      mul_enabled = true;
+    } else if (is_dont(input, i)) {
+      mul_enabled = false;
+    }
+    i++;
+  }
+  printf("%d\n", answer);
+  fclose(file);
 }
