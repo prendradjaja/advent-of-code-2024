@@ -92,18 +92,19 @@ void move(Robot* robot, int height, int width) {
 }
 
 int main(int argc, char** argv) {
-  if (argc < 2) {
+  if (argc < 4) {
     fprintf(stderr, "Usage:\n");
-    fprintf(stderr, " ./a ex\n");
-    fprintf(stderr, " ./a in\n");
+    fprintf(stderr, " ./a INPUT_FILE WIDTH HEIGHT\n");
+    fprintf(stderr, "\n");
+    fprintf(stderr, "Examples:\n");
+    fprintf(stderr, " ./a ex 11 7\n");
+    fprintf(stderr, " ./a in 101 103\n");
     exit(EXIT_FAILURE);
   }
 
   FILE *file = fopen(argv[1], "r");
-  int height, width;
-  fscanf(file, "%d %d ", &width, &height);
-  /* print_int(height); */
-  /* print_int(width); */
+  int width = atoi(argv[2]);
+  int height = atoi(argv[3]);
 
   if (!file) {
     fprintf(stderr, "Could not open input file\n");
