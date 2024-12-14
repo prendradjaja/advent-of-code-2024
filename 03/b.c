@@ -44,12 +44,12 @@ bool is_substring_match(char* haystack, char* needle, int index) {
   return true;
 }
 
-bool is_do(char* haystack, int end_index) {
-  return is_substring_match(haystack, DO, end_index - (DO_LENGTH - 1));
+bool is_do(char* haystack, int index) {
+  return is_substring_match(haystack, DO, index);
 }
 
-bool is_dont(char* haystack, int end_index) {
-  return is_substring_match(haystack, DONT, end_index - (DONT_LENGTH - 1));
+bool is_dont(char* haystack, int index) {
+  return is_substring_match(haystack, DONT, index);
 }
 
 // In production code, this function would be dangerous (allows buffer overflow attacks), needs a
