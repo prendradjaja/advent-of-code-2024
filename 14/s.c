@@ -91,6 +91,23 @@ void move(Robot* robot, int height, int width) {
   robot->py = modulo(robot->py + robot->vy, height);
 }
 
+int to_quadrant(int x, int y, int height, int width) {
+  int mid_x = width / 2;
+  int mid_y = height / 2;
+  if        (x < mid_x && y < mid_y) {
+    return 0;
+  } else if (x > mid_x && y < mid_y) {
+    return 1;
+  } else if (x < mid_x && y > mid_y) {
+    return 2;
+  } else if (x > mid_x && y > mid_y) {
+    return 3;
+  } else {
+    assert(x == mid_x || y == mid_y);
+    return 4; // Not a quadrant
+  }
+}
+
 int main(int argc, char** argv) {
   if (argc < 4) {
     fprintf(stderr, "Usage:\n");
@@ -122,11 +139,17 @@ int main(int argc, char** argv) {
     }
   }
 
-  for (int j = 0; robots[j] != NULL; j++) {
-    print_robot(robots[j]);
+  int quadrant_counts[5] = { 0 };
+
+  for (int i = 0; robots[i] != NULL; i++) {
+    Robot* r = robots[i];
+    int quadrant = to_quadrant(r->px, r->py, height, width);
+    quadrant_counts[quadrant]++;
   }
 
-  int answer = 0;
-  /* puts("\nAnswer:"); */
-  /* printf("%d\n", answer); */
+  int answer = 1;
+  for (int i = 0; i < 4; i++) {
+    answer *= quadrant_counts[i];
+  }
+  printf("%d\n", answer);
 }
