@@ -108,6 +108,30 @@ int to_quadrant(int x, int y, int height, int width) {
   }
 }
 
+void show(Robot** robots, int height, int width, int seconds) {
+  // has_robot[y * width + x] = does position <x,y> have a robot?
+  bool* has_robot = malloc(height * width * sizeof(bool));
+  for (int i = 0; i < height * width; i++) {
+    has_robot[i] = false;
+  }
+
+  for (int i = 0; robots[i] != NULL; i++) {
+    Robot* r = robots[i];
+    has_robot[r->py * width + r->px] = true;
+  }
+
+  printf("%d\n", seconds);
+
+  for (int y = 0; y < height; y++) {
+    for (int x = 0; x < width; x++) {
+      char ch = has_robot[y * width + x] ? '#' : '.';
+      printf("%c", ch);
+    }
+    puts("");
+  }
+  puts("");
+}
+
 int main(int argc, char** argv) {
   if (argc < 4) {
     fprintf(stderr, "Usage:\n");
@@ -129,7 +153,8 @@ int main(int argc, char** argv) {
   }
 
   Robot** robots = read_input_file(file);
-  int SIMULATION_LENGTH = 100;
+  int SIMULATION_LENGTH = 10000;
+  show(robots, height, width, 0);
   for (int i = 0; i < SIMULATION_LENGTH; i++) {
     /* printf("%d\n", i); */
     /* printf("    "); */
@@ -137,19 +162,22 @@ int main(int argc, char** argv) {
     for (int j = 0; robots[j] != NULL; j++) {
       move(robots[j], height, width);
     }
+    if (i % 101 == 94) {
+      show(robots, height, width, i + 1);
+    }
   }
 
-  int quadrant_counts[5] = { 0 };
-
-  for (int i = 0; robots[i] != NULL; i++) {
-    Robot* r = robots[i];
-    int quadrant = to_quadrant(r->px, r->py, height, width);
-    quadrant_counts[quadrant]++;
-  }
-
-  int answer = 1;
-  for (int i = 0; i < 4; i++) {
-    answer *= quadrant_counts[i];
-  }
-  printf("%d\n", answer);
+  /* int quadrant_counts[5] = { 0 }; */
+  /*  */
+  /* for (int i = 0; robots[i] != NULL; i++) { */
+  /*   Robot* r = robots[i]; */
+  /*   int quadrant = to_quadrant(r->px, r->py, height, width); */
+  /*   quadrant_counts[quadrant]++; */
+  /* } */
+  /*  */
+  /* int answer = 1; */
+  /* for (int i = 0; i < 4; i++) { */
+  /*   answer *= quadrant_counts[i]; */
+  /* } */
+  /* printf("%d\n", answer); */
 }
