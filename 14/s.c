@@ -5,17 +5,12 @@
 #include <string.h>
 
 
-
 typedef struct Robot {
   int px;
   int py;
   int vx;
   int vy;
 } Robot;
-
-void print_int(int n) {
-  printf("%d\n", n);
-}
 
 char* consume(char* s, char* expected) {
   while (*expected != '\0') {
@@ -32,12 +27,8 @@ char* consume_int(char* s, int* result) {
   return s + chars_consumed;
 }
 
-void print_robot(Robot* r) {
-  printf("%d\t%d\t/\t%d\t%d\n", r->px, r->py, r->vx, r->vy);
-}
-
-Robot* read_line(char* line) {
-  int px, py, vx, vy, chars_consumed;
+Robot* parse_robot(char* line) {
+  int px, py, vx, vy;
 
   line = consume(line, "p=");
   line = consume_int(line, &px);
@@ -53,7 +44,7 @@ Robot* read_line(char* line) {
   return result;
 }
 
-Robot** read_input_file(FILE* file) {
+Robot** parse_input(FILE* file) {
   const int MAX_LINE_LENGTH = 100;
   const int MAX_ROBOTS = 1000;
 
@@ -63,13 +54,7 @@ Robot** read_input_file(FILE* file) {
   int i = 0;
   while (fgets(line, MAX_LINE_LENGTH, file)) {
     line[strcspn(line, "\r\n")] = '\0';
-
-    result[i] = read_line(line);
-
-    // for (int c = 0; line[c] != '\0'; c++) {
-    //   unsigned char ch = line[c];
-    // }
-
+    result[i] = parse_robot(line);
     i++;
   }
   result[i] = NULL;
@@ -94,7 +79,7 @@ void move(Robot* robot, int height, int width) {
 int to_quadrant(int x, int y, int height, int width) {
   int mid_x = width / 2;
   int mid_y = height / 2;
-  if        (x < mid_x && y < mid_y) {
+  if (x < mid_x && y < mid_y) {
     return 0;
   } else if (x > mid_x && y < mid_y) {
     return 1;
@@ -103,7 +88,6 @@ int to_quadrant(int x, int y, int height, int width) {
   } else if (x > mid_x && y > mid_y) {
     return 3;
   } else {
-    assert(x == mid_x || y == mid_y);
     return 4; // Not a quadrant
   }
 }
@@ -128,19 +112,15 @@ int main(int argc, char** argv) {
     exit(EXIT_FAILURE);
   }
 
-  Robot** robots = read_input_file(file);
+  Robot** robots = parse_input(file);
   int SIMULATION_LENGTH = 100;
   for (int i = 0; i < SIMULATION_LENGTH; i++) {
-    /* printf("%d\n", i); */
-    /* printf("    "); */
-    /* print_robot(robots[10]); */
     for (int j = 0; robots[j] != NULL; j++) {
       move(robots[j], height, width);
     }
   }
 
   int quadrant_counts[5] = { 0 };
-
   for (int i = 0; robots[i] != NULL; i++) {
     Robot* r = robots[i];
     int quadrant = to_quadrant(r->px, r->py, height, width);
