@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <ctype.h>
 #include <string.h>
 
@@ -23,22 +24,42 @@ typedef struct State {
 const State INITIAL_STATE = { .type = EXPECT_M, .left_operand = 0, .right_operand = 0 };
 const State SECOND_STATE = { .type = EXPECT_U, .left_operand = 0, .right_operand = 0 };
 
-State next_state(State current, int ch, int* answer);
+State next_state(State current, int ch, int* answer, bool mul_enabled);
 
-// Find up to MAX occurrences of string NEEDLE in HAYSTACK. Return a (-1)-terminated array of string
-// indices.
-int* find_occurrences(char* haystack, char* needle, int max) {
-  char* start = haystack;
-  int* result = malloc((max + 1) * sizeof(int*));
-  int* result_start = result;
-  char* ptr;
-  while ((ptr = strstr(haystack, needle))) {
-    *result = ptr - start;
-    result++;
-    haystack = ptr + 1;
+/* puts("expect 1"); */
+/* printf("%d\n", is_substring_match("cats and dogs", "cat", 0)); */
+/* printf("%d\n", is_substring_match("::cats and dogs", "cat", 2)); */
+/* puts("expect 0"); */
+/* printf("%d\n", is_substring_match("cats and dogs", "catss", 0)); */
+/* printf("%d\n", is_substring_match("cats and dogs", "cat", -1)); */
+/* printf("%d\n", is_substring_match("cats and dogs", "cat", 1)); */
+/* printf("%d\n", is_substring_match("::cats and dogs", "cat", 0)); */
+bool is_substring_match(char* haystack, char* needle, int index) {
+  if (index < 0) {
+    return false;
   }
-  *result = -1;
-  return result_start;
+  int i = 0;
+  while (needle[i] != '\0') {
+    if (haystack[index + i] != needle[i]) {
+      return false;
+    }
+    i++;
+  }
+  return true;
+}
+
+char* DO = "do()";
+char* DONT = "don't()";
+
+const int DO_LENGTH = 4;
+const int DONT_LENGTH = 7;
+
+bool is_do(char* haystack, int end_index) {
+  return is_substring_match(haystack, DO, end_index - (DO_LENGTH - 1));
+}
+
+bool is_dont(char* haystack, int end_index) {
+  return is_substring_match(haystack, DONT, end_index - (DONT_LENGTH - 1));
 }
 
 char* input = "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))";
@@ -52,25 +73,24 @@ int main(int argc, char** argv) {
   /*   exit(EXIT_FAILURE); */
   /* } */
 
-  int* do_indices = find_occurrences(input, "do()", 50);
-  int* dont_indices = find_occurrences(input, "don't()", 50);
-
   // CONTINUE HERE:
-  // - Check whether do_indices[0] or dont_indices[0] is larger (i.e. do we start with a dont or a
-  // do)
-  //   - Answer: For both example and puzzle input, we start with a dont. That makes sense, since
-  //   the prompt says we start 'on'
-  // - Merge do_indices and dont_indices into one array (see Discord)
-  // - Sort it
+  // - Dont hard-code example input (read whole file into string)
+
+  puts("Using hard-coded example input, disregarding argv");
 
   FILE *file = fopen(filename, "r");
   State state = INITIAL_STATE;
   int ch;
   int answer = 0;
   int i = 0;
-  while ((ch = getc(file)) != EOF) {
-    state = next_state(state, ch, &answer);
-    /* printf("%d %c\n", i, ch); */
+  bool mul_enabled = true;
+  while ((ch = getc(file)) != '\n') {
+    state = next_state(state, ch, &answer, mul_enabled);
+    if (is_do(input, i)) {
+      mul_enabled = true;
+    } else if (is_dont(input, i)) {
+      mul_enabled = false;
+    }
     i++;
   }
   printf("%d\n", answer);
@@ -87,7 +107,7 @@ int char_to_int(int ch) {
   return ch - '0';
 }
 
-State next_state(State current, int ch, int* answer) {
+State next_state(State current, int ch, int* answer, bool mul_enabled) {
   switch (current.type) {
     case EXPECT_M:
       if (ch == 'm') {
@@ -163,7 +183,9 @@ State next_state(State current, int ch, int* answer) {
       } else if (ch == 'm') {
         return SECOND_STATE;
       } else if (ch == ')') {
-        *answer += current.left_operand * current.right_operand;
+        if (mul_enabled) {
+          *answer += current.left_operand * current.right_operand;
+        }
         return INITIAL_STATE;
       } else {
         return INITIAL_STATE;
