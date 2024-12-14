@@ -177,17 +177,16 @@ int main(int argc, char** argv) {
   }
 
   char* filename = argv[1];
-
   char* input = malloc(50000 * sizeof(char));
   read_input_file(input, filename);
 
-  FILE *file = fopen(filename, "r");
   State state = INITIAL_STATE;
   int ch;
   int answer = 0;
   int i = 0;
   bool mul_enabled = true;
-  while ((ch = getc(file)) != EOF) {
+
+  while ((ch = input[i]) != '\0') {
     state = next_state(state, ch, &answer, mul_enabled);
     if (is_do(input, i)) {
       mul_enabled = true;
@@ -196,6 +195,6 @@ int main(int argc, char** argv) {
     }
     i++;
   }
+
   printf("%d\n", answer);
-  fclose(file);
 }
