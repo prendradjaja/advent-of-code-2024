@@ -68,6 +68,7 @@ def main(filename):
             registers['C'] = numer // denom
         else:
             assert False, 'Unreachable case'
+
         if not is_jump:
             ip += 2
 
