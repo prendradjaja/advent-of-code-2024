@@ -69,8 +69,6 @@ int main(int argc, char** argv) {
 
   read_input_file(argv[1], grid_size, grid);
 
-  grid[7] = 1;
-
   for (int r = 0; r < grid_size; r++) {
     for (int c = 0; c < grid_size; c++) {
       char ch = get_item(grid, grid_size, (Vector) { r, c }) == 0 ? '.' : '#';
