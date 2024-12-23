@@ -7,3 +7,5 @@ Makefile
 TODO
 *.pyc
 __pycache__/
+!c_template/Makefile
+!python_template/Makefile
