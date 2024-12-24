@@ -27,9 +27,6 @@ const State SECOND_STATE = { .type = EXPECT_U, .left_operand = 0, .right_operand
 char* DO = "do()";
 char* DONT = "don't()";
 
-const int DO_LENGTH = 4;
-const int DONT_LENGTH = 7;
-
 bool is_substring_match(char* haystack, char* needle, int index) {
   if (index < 0) {
     return false;
@@ -177,7 +174,7 @@ int main(int argc, char** argv) {
   }
 
   char* filename = argv[1];
-  char* input = malloc(50000 * sizeof(char));
+  char input[50000];
   read_input_file(input, filename);
 
   State state = INITIAL_STATE;
