@@ -3,8 +3,8 @@
 
 const int MAX_SIZE = 2000;
 
-void read_input_file(int* arr1, int* arr2, int* size) {
-  FILE *file = fopen("in", "r");
+void read_input_file(char* filename, int* arr1, int* arr2, int* size) {
+  FILE *file = fopen(filename, "r");
   int elem1, elem2;
   int i = 0;
   while (fscanf(file, "%d %d", &elem1, &elem2) != EOF) {
@@ -19,34 +19,26 @@ void read_input_file(int* arr1, int* arr2, int* size) {
   *size = i;
 }
 
-// selection_sort implemented by generative AI -- TODO Implement it myself
-void selection_sort(int* arr, int size) {
-  for (int i = 0; i < size - 1; i++) {
-    // Find the index of the smallest element in the remaining array
-    int min_index = i;
-    for (int j = i + 1; j < size; j++) {
-      if (arr[j] < arr[min_index]) {
-        min_index = j;
-      }
-    }
-
-    // Swap the smallest element with the first unsorted element
-    if (min_index != i) {
-      int temp = arr[i];
-      arr[i] = arr[min_index];
-      arr[min_index] = temp;
-    }
-  }
+int compare(const void* item1, const void* item2) {
+  int n1 = *((int*) item1);
+  int n2 = *((int*) item2);
+  return n1 - n2;
 }
 
-int main() {
+int main(int argc, char** argv) {
+  if (argc < 2) {
+    fprintf(stderr, "Usage:\n");
+    fprintf(stderr, " ./a ex\n");
+    fprintf(stderr, " ./a in\n");
+    exit(EXIT_FAILURE);
+  }
   int left[MAX_SIZE];
   int right[MAX_SIZE];
   int size;
-  read_input_file(left, right, &size);
+  read_input_file(argv[1], left, right, &size);
 
-  selection_sort(left, size);
-  selection_sort(right, size);
+  qsort(left, size, sizeof(int), compare);
+  qsort(right, size, sizeof(int), compare);
 
   int answer = 0;
   for (int i = 0; i < size; i++) {
