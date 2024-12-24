@@ -14,14 +14,14 @@ int signum(int n) {
   }
 }
 
-bool handle_line(char* line) {
+bool is_safe(char* line) {
   const int UNKNOWN_DIRECTION = 999;
 
   int deltas_all_ok = true;
   int directions_all_same = true;
-  int first = true;
-  int prev = 0;
-  int direction = UNKNOWN_DIRECTION; // Is the array increasing (1), decreasing (-1), or unknown (UNKNOWN_DIRECTION)?
+  bool first = true;
+  int prev;
+  int direction = UNKNOWN_DIRECTION; // Is the array increasing (1), decreasing (-1), or unknown?
 
   // For each int `curr` in `line`
   int curr;
@@ -74,7 +74,7 @@ int main(int argc, char** argv) {
   int answer = 0;
   while (fgets(line, MAX_LINE_LENGTH, file)) {
     line[strcspn(line, "\r\n")] = '\0';
-    answer += handle_line(line);
+    answer += is_safe(line);
   }
 
   if (ferror(file)) {
