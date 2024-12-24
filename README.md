@@ -8,8 +8,10 @@ To do: Copy in sscanf.py (and give it a permanent home, maybe in toys repo)
 
 ## C notes
 
-Reading files and parsing: [C template]
-- Read and parse a file line-by-line with `fopen()`, `fgets()`, `strcspn()`
+Reading files and parsing:
+- [C template]: Read and parse a file line-by-line with `fopen()`, `fgets()`, `strcspn()`
+- Day 3: Read a file character-by-character with `getc()`
+- Day 5: Read a file with distinct "sections"/"paragraphs"
 
 Integer types:
 - Throughout the month I used `int` and occasionally `long` when necessary
@@ -43,6 +45,7 @@ Day 5: [05a] [05b]
 - Jagged 2D array via own `struct ArrayWithSize`
 - My own `consume()` and `consume_int()` first appear
   - But see day 14 for a better usage example
+- Reading a file with distinct "sections"/"paragraphs"
 - `assert.h`: `assert()`
 
 Day 7: [07a] [07b]
