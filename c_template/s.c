@@ -18,7 +18,11 @@ void read_input_file(char* filename) {
   const int MAX_LINE_LENGTH = 100000;
   char line[MAX_LINE_LENGTH];
   while (fgets(line, MAX_LINE_LENGTH, file)) {
+    // I haven't tested this on a file with DOS line endings, but this loop should properly handle
+    // both Unix and DOS line endings.
     line[strcspn(line, "\r\n")] = '\0';
+
+    // Do something with `line` (e.g. here, just print it)
     puts(line);
   }
 
