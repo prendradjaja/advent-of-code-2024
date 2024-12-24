@@ -15,7 +15,7 @@ Reading files and parsing:
 
 Integer types:
 - Throughout the month I used `int` and occasionally `long` when necessary
-- Probably it is preferable to use fixed-width types e.g. `int64_t` and `uint64_t`
+- Probably it is often (usually?) preferable to use fixed-width types e.g. `int64_t` and `uint64_t`
   - See e.g. day 24
 
 Day 1: [01a] [01b]
