@@ -164,7 +164,7 @@ int main(int argc, char** argv) {
   for (int i = 0; i < 100; i++) {
     int tens = i / 10;
     int ones = i % 10;
-    char wire_id_str[4] = { 'z', tens + '0', ones + '0', '\0' };
+    char wire_id_str[] = { 'z', tens + '0', ones + '0', '\0' };
     int wire_id = wire_id_as_int(wire_id_str);
     int wire_value = wire_values[wire_id];
     if (wire_value != NO_VALUE) {
