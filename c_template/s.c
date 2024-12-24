@@ -30,6 +30,9 @@ void read_input_file(char* filename) {
     r++;
   }
 
+  // This check is here because the loop exits if fgets() returns a null pointer, which happens in
+  // both the end-of-file case and the error case (it does not distinguish; ferror() is needed for
+  // that). (Source: fgets() documentation)
   if (ferror(file)) {
     fprintf(stderr, "Error reading input file\n");
     exit(EXIT_FAILURE);
