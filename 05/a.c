@@ -12,10 +12,6 @@ typedef struct ArrayWithSize {
   int size;
 } ArrayWithSize;
 
-void print_int(int n) {
-  printf("%d\n", n);
-}
-
 void read_ordering_rules(FILE* file) {
   const int MAX_LINE_LENGTH = 100000;
   char line[MAX_LINE_LENGTH];
