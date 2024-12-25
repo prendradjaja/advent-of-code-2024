@@ -57,10 +57,6 @@ Day 7: [07a] [07b]
 
 Day 14: [14a]
 - My own `consume()` and `consume_int()`
-- `->` operator (e.g. `robot->px`, as opposed to `.` operator e.g. `robot.px`)
-  - Mostly I've passed structs around (unidiomatic?) instead of passing around pointers to structs;
-    if doing the latter, you'll see `->` more often
-- `atoi()`
 
 Day 24: [24a]
 - Fixed-width types e.g. `uint64_t`
