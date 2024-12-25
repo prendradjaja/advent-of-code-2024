@@ -11,7 +11,7 @@ void print_int(int n) {
 void read_input_file(char* filename) {
   FILE *file = fopen(filename, "r");
   if (!file) {
-    fprintf(stderr, "Could not open input file\n");
+    perror(NULL);
     exit(EXIT_FAILURE);
   }
 
@@ -30,7 +30,7 @@ void read_input_file(char* filename) {
   // both the end-of-file case and the error case (it does not distinguish; ferror() is needed for
   // that). (Source: fgets() documentation)
   if (ferror(file)) {
-    fprintf(stderr, "Error reading input file\n");
+    perror(NULL);
     exit(EXIT_FAILURE);
   }
 }
