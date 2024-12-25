@@ -29,6 +29,7 @@ Day 1: [01a] [01b]
     purpose.
 - Printing to stderr with `fprintf()`
   - See also `perror()` in [C template], which prints a human-readable error message based on the value of libc's global variable `errno`. (Use it after a function like `fopen()`, which writes to `errno` on error.)
+  - `perror()` vs `fprintf(stderr, ...)`: https://stackoverflow.com/a/12102357
 
 Day 2: [02a] [02b]
 - `stdbool.h`: `true`, `false`, `bool`
