@@ -16,7 +16,7 @@ void print_int(int n) {
 }
 
 void read_input_file(char* filename) {
-  FILE *file = fopen(filename, "r");
+  FILE* file = fopen(filename, "r");
   if (!file) {
     perror(NULL);
     exit(EXIT_FAILURE);
