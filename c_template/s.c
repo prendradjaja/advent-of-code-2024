@@ -4,6 +4,13 @@
 #include <string.h>
 
 
+// On pointer style:
+//
+// Probably shift from `int* foo` to `int *foo`. There's a handful of common arguments out there for
+// each side. During AoC 2024 I stuck with what felt familiar instead of forming an opinion, but
+// after reading those arguments I think I prefer the latter.
+
+
 void print_int(int n) {
   printf("%d\n", n);
 }
