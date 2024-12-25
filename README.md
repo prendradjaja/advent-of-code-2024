@@ -1,17 +1,20 @@
 # Advent of Code 2024 solutions
 
-Mostly in C.
+Mostly in C this year.
+
 
 ## Python utilities
 
 To do: Copy in sscanf.py (and give it a permanent home, maybe in toys repo)
+
 
 ## C notes
 
 Reading files and parsing:
 - [C template]: Read and parse a file line-by-line with `fopen()`, `fgets()`, `strcspn()`
 - Day 3: Read a file character-by-character with `getc()`
-- Day 5: Read a file with distinct "sections"/"paragraphs"
+- Day 5: Read a file with a fixed number of "paragraphs"
+- Day 25: Read a file with an unknown number of "paragraphs"
 
 Integer types:
 - Throughout the month I used `int` and occasionally `long` when necessary
@@ -45,7 +48,7 @@ Day 5: [05a] [05b]
 - Jagged 2D array via own `struct ArrayWithSize`
 - My own `consume()` and `consume_int()` first appear
   - But see day 14 for a better usage example
-- Reading a file with distinct "sections"/"paragraphs"
+- Reading a file with a fixed number of "paragraphs"
 - `assert.h`: `assert()`
 
 Day 7: [07a] [07b]
@@ -64,6 +67,10 @@ Day 24: [24a]
   - Q: How do you use these types with `printf()`? A: With macros like `PRIu64`, e.g. `printf("%" PRIu64 "\n", answer)`
   - Q: What's the difference between `stdint.h` and `inttypes.h`?
     - A: https://stackoverflow.com/questions/7597025/difference-between-stdint-h-and-inttypes-h
+
+Day 25: [25a]
+- Reading a file with a variable number of "paragraphs"
+
 
 [c template]: ./c_template/s.c
 
@@ -90,3 +97,5 @@ Day 24: [24a]
 [14a]: ./14/a.c
 
 [24a]: ./24/a.c
+
+[25a]: ./25/a.c
