@@ -65,9 +65,10 @@ Day 14: [14a]
 
 Day 24: [24a]
 - Fixed-width types e.g. `uint64_t`
-  - Q: How do you use these types with `printf()`? A: With macros like `PRIu64`, e.g. `printf("%" PRIu64 "\n", answer)`
+  - Q: How do you use these types with `printf()`?
+    - A: With macros like `PRIu64`, e.g. `printf("%" PRIu64 "\n", answer)`
   - Q: What's the difference between `stdint.h` and `inttypes.h`?
-    - A: https://stackoverflow.com/questions/7597025/difference-between-stdint-h-and-inttypes-h
+    - A: https://stackoverflow.com/a/9162072
 
 Day 25: [25a]
 - Reading a file with a variable number of "paragraphs"
