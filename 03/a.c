@@ -19,8 +19,8 @@ typedef struct State {
   int right_operand;
 } State;
 
-const State INITIAL_STATE = { .type = EXPECT_M, .left_operand = 0, .right_operand = 0 };
-const State SECOND_STATE = { .type = EXPECT_U, .left_operand = 0, .right_operand = 0 };
+const State INITIAL_STATE = { EXPECT_M, 0, 0 };
+const State SECOND_STATE = { EXPECT_U, 0, 0 };
 
 State next_state(State current, int ch, int* answer);
 
