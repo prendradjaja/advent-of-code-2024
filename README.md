@@ -14,6 +14,7 @@ Reading files and parsing:
 - [C template]: Read and parse a file line-by-line with `fopen()`, `fgets()`, `strcspn()`
 - Day 3: Read a file character-by-character with `getc()`
 - Day 5: Read a file with a fixed number of "paragraphs"
+- Day 10: Read a file character-by-character into a 2D grid
 - Day 25: Read a file with an unknown number of "paragraphs"
 
 Integer types:
@@ -61,6 +62,7 @@ Day 7: [07a] [07b]
 Day 10: [10a] [10b]
 - Splitting a program into multiple files
 - My own `vector.h` and `grid.h`
+- Reading a file character-by-character into a 2D grid
 
 Day 14: [14a]
 - My own `consume()` and `consume_int()`
