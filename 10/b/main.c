@@ -11,10 +11,6 @@
 PositionDelta directions[] = { {-1, 0}, {0, 1}, {1, 0}, {0, -1} };
 int count_directions = sizeof(directions) / sizeof(directions[0]);
 
-void print_int(int n) {
-  printf("%d\n", n);
-}
-
 Grid read_input_file(char *filename) {
   FILE *file = fopen(filename, "r");
   if (!file) {
