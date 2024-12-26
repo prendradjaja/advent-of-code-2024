@@ -74,6 +74,8 @@ int main(int argc, char** argv) {
     puts("");
   }
 
+  // CONTINUE_HERE: Pathfinding (probably BFS)
+
   /* int answer = 0; */
   /* puts("\nAnswer:"); */
   /* printf("%d\n", answer); */
