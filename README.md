@@ -17,6 +17,7 @@ Reading files and parsing:
 - Day 5: Parse ints separated by commas (See `read_page_list()`)
   - Maybe use `strtok()` instead
 - Day 10: Read a file character-by-character into a 2D grid
+- Day 14: Parsing with `consume()` and `consume_int()`
 - Day 25: Read a file with an unknown number of "paragraphs"
 
 Integer types:
