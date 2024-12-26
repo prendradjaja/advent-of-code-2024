@@ -55,6 +55,8 @@ Day 5: [05a] [05b]
 - My own `consume()` and `consume_int()` first appear
   - But see day 14 for a better usage example
 - Reading a file with a fixed number of "paragraphs"
+- Parsing ints separated by commas (See `read_page_list()`)
+  - Maybe use `strtok()` instead
 - `assert.h`: `assert()`
 
 Day 7: [07a] [07b]
