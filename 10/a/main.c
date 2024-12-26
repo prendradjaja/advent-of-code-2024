@@ -25,11 +25,8 @@ Grid read_input_file(char *filename) {
   bool is_first_line = true;
 
   while ((ch = getc(file)) != EOF) {
-    bool is_newline = ch == '\n' || ch == '\r';
-    if (is_newline && is_first_line) {
+    if (ch == '\n' || ch == '\r') {
       is_first_line = false;
-      continue;
-    } else if (is_newline) {
       continue;
     }
 
