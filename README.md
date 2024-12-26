@@ -19,6 +19,7 @@ Reading files and parsing:
 - Day 10: Read a file character-by-character into a 2D grid
 - Day 14: Parsing with `consume()` and `consume_int()`
 - Day 25: Read a file with an unknown number of "paragraphs"
+- Various days: `fscanf()` and `sscanf()`
 
 Integer types:
 - Throughout the month I used `int` and occasionally `long` when necessary
