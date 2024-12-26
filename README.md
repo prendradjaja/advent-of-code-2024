@@ -14,6 +14,8 @@ Reading files and parsing:
 - [C template]: Read and parse a file line-by-line with `fopen()`, `fgets()`, `strcspn()`
 - Day 3: Read a file character-by-character with `getc()`
 - Day 5: Read a file with a fixed number of "paragraphs"
+- Day 5: Parse ints separated by commas (See `read_page_list()`)
+  - Maybe use `strtok()` instead
 - Day 10: Read a file character-by-character into a 2D grid
 - Day 25: Read a file with an unknown number of "paragraphs"
 
