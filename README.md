@@ -42,6 +42,7 @@ Day 3: [03a] [03b]
 Day 4: [04a] [04b]
 - My own `struct Vector` (see day 8 [08a] for `Vector`, `Position`, `PositionDelta`)
   - And `add()`, `in_bounds()`
+  - See day 10 for these packaged together into `vector.h` and `grid.h`
 - `{ 0 }` initializes an array with all zeroes (even for multi-dimensional arrays: see day 5)
 
 Day 5: [05a] [05b]
@@ -59,6 +60,7 @@ Day 7: [07a] [07b]
 
 Day 10: [10a] [10b]
 - Splitting a program into multiple files
+- My own `vector.h` and `grid.h`
 
 Day 14: [14a]
 - My own `consume()` and `consume_int()`
