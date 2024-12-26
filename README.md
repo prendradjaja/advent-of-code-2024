@@ -57,6 +57,9 @@ Day 7: [07a] [07b]
 - Jagged 2D array as 1D array with `END_OF_SUBARRAY` markers
   - I don't necessarily recommend this. See day 5 for another way of handling jagged arrays.
 
+Day 10: [10a] [10b]
+- Splitting a program into multiple files
+
 Day 14: [14a]
 - My own `consume()` and `consume_int()`
 
@@ -91,6 +94,9 @@ Day 25: [25a]
 [07b]: ./07/b.c
 
 [08a]: ./08/a.c
+
+[10a]: ./10/a
+[10b]: ./10/b
 
 [14a]: ./14/a.c
 
