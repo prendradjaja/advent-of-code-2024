@@ -27,10 +27,7 @@ Integer types:
 
 Day 1: [01a] [01b]
 - `qsort()` (part 1)
-- Parsing ints with `fscanf()` (See also `sscanf()`, used in other days)
-  - While scanf alone isn't suitable for reading a file line-by-line (it does not distinguish
-    between e.g. `' '` and `'\n'`), see e.g. day 5 for using scanf together with `fgets()` for that
-    purpose.
+- `fscanf()` (See also `sscanf()`, used in other days)
 - Printing to stderr with `fprintf()`
   - See also `perror()` in [C template], which prints a human-readable error message based on the value of libc's global variable `errno`. (Use it after a function like `fopen()`, which writes to `errno` on error.)
   - `perror()` vs `fprintf(stderr, ...)`: https://stackoverflow.com/a/12102357
