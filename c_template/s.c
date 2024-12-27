@@ -35,7 +35,6 @@ void read_input_file(char *filename) {
   }
 }
 
-
 int main(int argc, char **argv) {
   if (argc < 2) {
     fprintf(stderr, "Usage:\n");
