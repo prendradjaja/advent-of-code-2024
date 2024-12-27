@@ -8,9 +8,11 @@ Mostly in C this year.
 To do: Copy in sscanf.py (and give it a permanent home, maybe in toys repo)
 
 
-## C notes
+## C notes and utilities
 
 Utilities: [C helpers repo]
+
+### By subject
 
 Reading files and parsing:
 - [C template]: Read and parse a file line-by-line with `fopen()`, `fgets()`, `strcspn()`
@@ -27,6 +29,8 @@ Integer types:
 - Throughout the month I used `int` and occasionally `long` when necessary
 - Probably it is often (usually?) preferable to use fixed-width types e.g. `int64_t` and `uint64_t`
   - See e.g. day 24
+
+### By day
 
 Day 1: [01a] [01b]
 - `qsort()` (part 1)
@@ -81,6 +85,11 @@ Day 24: [24a]
 
 Day 25: [25a]
 - Reading a file with a variable number of "paragraphs"
+
+### Beyond day 25
+
+AoC 2016x01: [main.c](https://github.com/prendradjaja/advent-of-code-past/blob/master/1601/a/main.c)
+- Moving parsing out of main but without allocating an array (streaming style!)
 
 
 [c helpers repo]: https://github.com/prendradjaja/c-helpers
