@@ -10,6 +10,8 @@ To do: Copy in sscanf.py (and give it a permanent home, maybe in toys repo)
 
 ## C notes
 
+Utilities: [C helpers repo]
+
 Reading files and parsing:
 - [C template]: Read and parse a file line-by-line with `fopen()`, `fgets()`, `strcspn()`
 - Day 3: Read a file character-by-character with `getc()`
@@ -80,6 +82,8 @@ Day 24: [24a]
 Day 25: [25a]
 - Reading a file with a variable number of "paragraphs"
 
+
+[c helpers repo]: https://github.com/prendradjaja/c-helpers
 
 [c template]: ./c_template/s.c
 
