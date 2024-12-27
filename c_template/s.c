@@ -4,19 +4,12 @@
 #include <string.h>
 
 
-// On pointer style:
-//
-// Probably shift from `int* foo` to `int *foo`. There's a handful of common arguments out there for
-// each side. During AoC 2024 I stuck with what felt familiar instead of forming an opinion, but
-// after reading those arguments I think I prefer the latter.
-
-
 void print_int(int n) {
   printf("%d\n", n);
 }
 
-void read_input_file(char* filename) {
-  FILE* file = fopen(filename, "r");
+void read_input_file(char *filename) {
+  FILE *file = fopen(filename, "r");
   if (!file) {
     perror(NULL);
     exit(EXIT_FAILURE);
@@ -43,7 +36,7 @@ void read_input_file(char* filename) {
 }
 
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
   if (argc < 2) {
     fprintf(stderr, "Usage:\n");
     fprintf(stderr, " ./a ex\n");
