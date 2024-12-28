@@ -58,7 +58,6 @@ Day 5: [05a] [05b]
 - Parsing ints separated by commas with `strtok()`
 - Jagged 2D array via own `struct ArrayWithSize`
 - Reading a file with a fixed number of "paragraphs"
-- `assert.h`: `assert()`
 
 Day 7: [07a] [07b]
 - Jagged 2D array as 1D array with `END_OF_SUBARRAY` markers
@@ -68,6 +67,7 @@ Day 10: [10a] [10b]
 - Splitting a program into multiple files
 - My own `vector.h` and `grid.h`
 - Reading a file character-by-character into a 2D grid
+- `assert.h`: `assert()`
 
 Day 14: [14a]
 - My own `consume()` and `consume_int()`
