@@ -29,37 +29,19 @@ void read_ordering_rules(FILE* file) {
   }
 }
 
-char* consume(char* s, char* expected) {
-  while (*expected != '\0') {
-    assert(*s == *expected);
-    s++;
-    expected++;
-  }
-  return s;
-}
-
-char* consume_int(char* s, int* result) {
-  int chars_consumed;
-  sscanf(s, "%d%n", result, &chars_consumed);
-  return s + chars_consumed;
-}
-
-ArrayWithSize read_page_list(char* line) {
+// Warning: Mutates s
+//
+// Parses a string of comma-separated ints
+ArrayWithSize parse_ints(char *s) {
   const int MAX_ARRAY_SIZE = 100;
-  int* pages = malloc(MAX_ARRAY_SIZE * sizeof(int));
+  int* data = malloc(MAX_ARRAY_SIZE * sizeof(int));
   int size = 0;
-  while (true) {
-    int n;
-    line = consume_int(line, &n);
-    pages[size] = n;
-    size++;
-    if (*line == '\0') {
-      break;
-    } else {
-      line = consume(line, ",");
-    }
+  char* token = strtok(s, ",");
+  while (token) {
+    data[size++] = atoi(token);
+    token = strtok(NULL, ",");
   }
-  return (ArrayWithSize) { pages, size };
+  return (ArrayWithSize) { data, size };
 }
 
 void read_page_lists(FILE* file, ArrayWithSize* page_lists, int* count_page_lists) {
@@ -71,7 +53,7 @@ void read_page_lists(FILE* file, ArrayWithSize* page_lists, int* count_page_list
   while (fgets(line, MAX_LINE_LENGTH, file)) {
     line[strcspn(line, "\r\n")] = '\0';
 
-    ArrayWithSize page_list = read_page_list(line);
+    ArrayWithSize page_list = parse_ints(line);
     page_lists[*count_page_lists] = page_list;
     (*count_page_lists)++;
   }

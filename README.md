@@ -18,8 +18,7 @@ Reading files and parsing:
 - [C template]: Read and parse a file line-by-line with `fopen()`, `fgets()`, `strcspn()`
 - Day 3: Read a file character-by-character with `getc()`
 - Day 5: Read a file with a fixed number of "paragraphs"
-- Day 5: Parse ints separated by commas (See `read_page_list()`)
-  - Maybe use `strtok()` instead
+- Day 5: Parse ints separated by commas with `strtok()`
 - Day 10: Read a file character-by-character into a 2D grid
 - Day 14: Parsing with `consume()` and `consume_int()`
 - Day 25: Read a file with an unknown number of "paragraphs"
@@ -56,12 +55,9 @@ Day 4: [04a] [04b]
 Day 5: [05a] [05b]
 - `malloc()`
   - Of course in real code don't forget `free()`
+- Parsing ints separated by commas with `strtok()`
 - Jagged 2D array via own `struct ArrayWithSize`
-- My own `consume()` and `consume_int()` first appear
-  - But see day 14 for a better usage example
 - Reading a file with a fixed number of "paragraphs"
-- Parsing ints separated by commas (See `read_page_list()`)
-  - Maybe use `strtok()` instead
 - `assert.h`: `assert()`
 
 Day 7: [07a] [07b]
