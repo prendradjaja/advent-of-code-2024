@@ -29,9 +29,13 @@ void read_ordering_rules(FILE* file) {
   }
 }
 
+// Parses a string of comma-separated ints
+//
 // Warning: Mutates s
 //
-// Parses a string of comma-separated ints
+// To do the same thing without mutating s, copy the string first.
+// See this gist:
+// https://gist.github.com/prendradjaja/de4af37c8b7be046742838886e25056f
 ArrayWithSize parse_ints(char *s) {
   const int MAX_ARRAY_SIZE = 100;
   int* data = malloc(MAX_ARRAY_SIZE * sizeof(int));
